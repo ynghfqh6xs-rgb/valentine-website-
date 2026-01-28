@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Love Story 💖</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: "Poppins", Arial, sans-serif;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  color: white;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+h1 {
+  margin-top: 20px;
+  font-size: 28px;
+}
+
+section {
+  padding: 25px;
+}
+
+.card {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 760px;
+  margin: 20px auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Photo Dump */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.gallery img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.gallery img:hover {
+  transform: scale(1.08);
+}
+
+/* Timeline */
+.timeline p {
+  background: rgba(0,0,0,0.2);
+  padding: 10px;
+  border-radius: 10px;
+  margin: 8px 0;
+}
+
+/* Inputs */
+textarea, input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+/* Buttons */
+button {
+  background: #ff4d6d;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+button:hover {
+  background: #ff1e4d;
+}
+
+/* Floating Hearts */
+.heart {
+  position: fixed;
+  bottom: 0;
+  font-size: 22px;
+  animation: float 6s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-100vh); opacity: 0; }
+}
+
+/* Surprise Screen */
+#surpriseScreen {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #ff4d6d, #ff9a9e);
+  color: white;
+  text-align: center;
+  padding: 40px;
+}
+
+#surpriseScreen img {
+  width: 220px;
+  border-radius: 16px;
+  margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>💖 Our Cute, Funny & Romantic Love Page</h1>
+
+<!-- Love Message -->
+<section class="card">
+  <h2>💌 Write a Love Message</h2>
+  <textarea id="message" oninput="updateMessage()" placeholder="Write something sweet..."></textarea>
+  <p id="previewText">You’re my favorite person in every universe 💕</p>
+</section>
+
+<!-- Auto Romantic Message -->
+<section class="card">
+  <h2>🤍 Auto-Generated Romantic Message</h2>
+  <p id="autoMessage">Click below to generate a deep romantic message 💘</p>
+  <button onclick="generateMessage()">Generate Message ✨</button>
+</section>
+
+<!-- Photo Dump -->
+<section class="card">
+  <h2>📸 Our Photo Dump</h2>
+  <input type="file" multiple accept="image/*" onchange="loadPhotos(event)">
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<!-- Love Timeline -->
+<section class="card">
+  <h2>📖 Our Love Story Timeline</h2>
+  <input type="text" id="timelineInput" placeholder="Add a memory...">
+  <button onclick="addTimeline()">Add Memory 💞</button>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<!-- Custom Music -->
+<section class="card">
+  <h2>🎵 Custom Background Music</h2>
+  <input type="file" accept="audio/*" onchange="loadMusic(event)">
+  <button onclick="toggleMusic()">Play / Pause 🎶</button>
+</section>
+
+<!-- Valentine Button -->
+<section class="card">
+  <h2>💍 Will You Be My Valentine?</h2>
+  <button onclick="showSurprise()">Yes 💖</button>
+</section>
+
+<!-- Surprise Love Screen -->
+<div id="surpriseScreen">
+  <h1>💞 I Miss You</h1>
+  <p>You mean more to me than words can explain.  
+  If love had a home, it would be you.</p>
+  <input type="file" accept="image/*" onchange="loadSurpriseImage(event)">
+  <br>
+  <img id="surpriseImage">
+  <br><br>
+  <button onclick="closeSurprise()">Back 💌</button>
+</div>
+
+<!-- Music -->
+<audio id="music" loop></audio>
+
+<script>
+// Live Message
+function updateMessage() {
+  const msg = document.getElementById("message").value;
+  document.getElementById("previewText").innerText = msg || "You’re my favorite person in every universe 💕";
+}
+
+// Auto Romantic Messages
+const romanticMessages = [
+"You feel like home to my heart 💖",
+"If love had a face, it would look like you ✨",
+"You make my heart smile even on bad days 💞",
+"My favorite place is wherever you are 💘",
+"I’d choose you in every lifetime ❤️",
+"You’re the plot twist my heart always wanted 📖",
+"You’re my peace, my chaos, and my happiness 💕"
+];
+
+function generateMessage() {
+  const msg = romanticMessages[Math.floor(Math.random() * romanticMessages.length)];
+  document.getElementById("autoMessage").innerText = msg;
+}
+
+// Photo Dump
+function loadPhotos(event) {
+  const gallery = document.getElementById("gallery");
+  gallery.innerHTML = "";
+  Array.from(event.target.files).forEach(file => {
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    gallery.appendChild(img);
+  });
+}
+
+// Timeline
+function addTimeline() {
+  const text = document.getElementById("timelineInput").value;
+  if (!text) return;
+  const p = document.createElement("p");
+  p.innerText = "💖 " + text;
+  document.getElementById("timeline").appendChild(p);
+  document.getElementById("timelineInput").value = "";
+}
+
+// Music Upload
+const music = document.getElementById("music");
+
+function loadMusic(event) {
+  music.src = URL.createObjectURL(event.target.files[0]);
+  music.play();
+}
+
+function toggleMusic() {
+  if (music.paused) music.play();
+  else music.pause();
+}
+
+// Surprise Screen
+function showSurprise() {
+  document.getElementById("surpriseScreen").style.display = "block";
+}
+
+function closeSurprise() {
+  document.getElementById("surpriseScreen").style.display = "none";
+}
+
+function loadSurpriseImage(event) {
+  document.getElementById("surpriseImage").src = URL.createObjectURL(event.target.files[0]);
+}
+
+// Floating Hearts
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💖";
+  heart.style.left = Math.random() * window.innerWidth + "px";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}, 400);
+</script>
+
+</body>
+</html>
